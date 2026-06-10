@@ -23,18 +23,21 @@ export async function readTrackedChampions(): Promise<TrackedChampion[]> {
     },
   })
 
-  return trackedChampions.map((tracked) => ({
+  return trackedChampions.map((tracked: { championId: any; status: string; notes: any; updatedAt: string | number | Date }) => ({
     championId: tracked.championId,
     status: tracked.status as ChampionStatus,
     notes: tracked.notes,
-    updatedAt: tracked.updatedAt.toISOString(),
+    updatedAt:
+      tracked.updatedAt instanceof Date
+        ? tracked.updatedAt.toISOString()
+        : new Date(tracked.updatedAt).toISOString(),
   }))
 }
 
-export async function writeTrackedChampion(
+export function writeTrackedChampion(
   entry: Omit<TrackedChampion, "updatedAt">
 ) {
-  await prisma.trackedChampion.upsert({
+  return prisma.trackedChampion.upsert({
     where: {
       championId: entry.championId,
     },
@@ -57,14 +60,14 @@ export async function readTrackedChampionViews(): Promise<TrackedChampionView[]>
   for (const tracked of trackedChampions) {
     const champion = await getChampionById(tracked.championId)
 
-    if (champion) {
-      trackedChampionViews.push({
-        ...tracked,
-        championName: champion.name,
-        championRole: champion.role,
-        championIconUrl: champion.iconUrl,
-      })
-    }
+    if (!champion) continue
+
+    trackedChampionViews.push({
+      ...tracked,
+      championName: champion.name,
+      championRole: champion.role,
+      championIconUrl: champion.iconUrl,
+    })
   }
 
   return trackedChampionViews
