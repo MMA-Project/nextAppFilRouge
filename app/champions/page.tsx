@@ -26,13 +26,15 @@ export default async function ChampionsPage() {
             className="hextech-card grid gap-4 rounded-sm p-5 transition hover:-translate-y-0.5"
           >
             <div className="flex items-center gap-4">
-              <Image
-                src={champion.iconUrl}
-                alt=""
-                width={64}
-                height={64}
-                className="rounded-sm ring-1 ring-[#C89B3C]/40"
-              />
+              {champion.iconUrl && (
+                <Image
+                  src={champion.iconUrl}
+                  alt=""
+                  width={64}
+                  height={64}
+                  className="rounded-sm ring-1 ring-[#C89B3C]/40"
+                />
+              )}
               <div className="min-w-0">
                 <h2 className="truncate font-heading text-xl font-bold tracking-wide text-[#F0E6D3]">
                   {champion.name}

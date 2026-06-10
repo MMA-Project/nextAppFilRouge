@@ -43,7 +43,8 @@ type CDragonChampionDetail = CDragonChampionSummary & {
   }[]
 }
 
-export function getCDragonAssetUrl(path: string) {
+export function getCDragonAssetUrl(path: string | null | undefined): string {
+  if (!path) return ""
   const normalizedPath = path.toLowerCase()
 
   if (normalizedPath.startsWith("/lol-game-data/assets/v1/")) {
@@ -112,13 +113,13 @@ function toChampion(summary: CDragonChampionSummary): Champion {
 function toChampionDetail(detail: CDragonChampionDetail): Champion {
   const baseSkin = detail.skins?.find((skin) => skin.isBase)
   const splashPath =
-    baseSkin?.splashPath ??
-    baseSkin?.tilePath ??
+    baseSkin?.splashPath ||
+    baseSkin?.tilePath ||
     detail.squarePortraitPath
   const uncenteredSplashPath =
-    baseSkin?.uncenteredSplashPath ??
-    baseSkin?.splashPath ??
-    baseSkin?.tilePath ??
+    baseSkin?.uncenteredSplashPath ||
+    baseSkin?.splashPath ||
+    baseSkin?.tilePath ||
     detail.squarePortraitPath
 
   return {

@@ -33,14 +33,16 @@ export default async function ChampionDetailPage({
         </Link>
 
         <div className="hextech-card overflow-hidden rounded-sm">
-          <Image
-            src={champion.uncenteredSplashUrl}
-            alt=""
-            width={1920}
-            height={1080}
-            priority
-            className="aspect-[16/7] w-full object-cover object-top"
-          />
+          {(champion.uncenteredSplashUrl || champion.splashUrl) && (
+            <Image
+              src={champion.uncenteredSplashUrl || champion.splashUrl}
+              alt=""
+              width={1920}
+              height={1080}
+              priority
+              className="aspect-[16/7] w-full object-cover object-top"
+            />
+          )}
           <div className="grid gap-3 p-5">
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#C89B3C]">
               {champion.roles.join(" / ") || champion.role}

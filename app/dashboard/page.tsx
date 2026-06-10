@@ -50,13 +50,15 @@ const DashboardPage = async () => {
               >
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-4">
-                    <Image
-                      src={tracked.championIconUrl}
-                      alt=""
-                      width={56}
-                      height={56}
-                      className="rounded-sm ring-1 ring-[#C89B3C]/40"
-                    />
+                    {tracked.championIconUrl && (
+                      <Image
+                        src={tracked.championIconUrl}
+                        alt=""
+                        width={56}
+                        height={56}
+                        className="rounded-sm ring-1 ring-[#C89B3C]/40"
+                      />
+                    )}
                     <div>
                       <h2 className="font-heading text-xl font-semibold tracking-wide text-[#F0E6D3]">
                         {tracked.championName}
