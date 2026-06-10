@@ -23,7 +23,7 @@ export async function readTrackedChampions(): Promise<TrackedChampion[]> {
     },
   })
 
-  return trackedChampions.map((tracked: { championId: any; status: string; notes: any; updatedAt: string | number | Date }) => ({
+  return trackedChampions.map((tracked) => ({
     championId: tracked.championId,
     status: tracked.status as ChampionStatus,
     notes: tracked.notes,
