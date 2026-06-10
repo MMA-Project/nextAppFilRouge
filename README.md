@@ -15,15 +15,11 @@ joueurs de League of Legends.
 L'application pourra permettre de :
 
 - consulter une liste de champions ;
-- afficher le detail d'un champion avec une route dynamique ;
+- afficher le detail d'un champion ;
 - utiliser les donnees et assets de Community Dragon ;
 - filtrer les champions par role ;
 - suivre des champions dans un dashboard ;
 - proteger le dashboard avec une connexion GitHub ;
-- laisser les fiches champions publiques tout en reservant le suivi aux
-  utilisateurs connectes ;
-- ajouter une progression personnelle : a tester, en apprentissage, maitrise ;
-- afficher des pages d'erreur, de chargement et de contenu introuvable.
 
 ## Objectifs pedagogiques
 
