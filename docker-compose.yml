@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: league-tracker-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: league_tracker
+      POSTGRES_USER: league_tracker
+      POSTGRES_PASSWORD: league_tracker
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U league_tracker -d league_tracker"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
