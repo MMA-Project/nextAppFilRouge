@@ -2,15 +2,17 @@
 
 const ErrorPage = ({ error, reset }: { error: Error; reset: () => void }) => {
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center px-6">
       <div className="text-center">
-        <h1 className="text-4xl font-bold text-red-500">An error occurred</h1>
-        <p className="mt-4 text-lg text-gray-700">{error.message}</p>
+        <h1 className="text-4xl font-bold text-red-600">
+          Une erreur est survenue
+        </h1>
+        <p className="mt-4 text-lg text-zinc-700">{error.message}</p>
         <button
           onClick={reset}
-          className="mt-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="mt-6 rounded-md bg-zinc-950 px-4 py-2 text-white hover:bg-zinc-800"
         >
-          Try Again
+          Reessayer
         </button>
       </div>
     </div>
