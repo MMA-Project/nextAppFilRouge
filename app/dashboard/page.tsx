@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { getTrackedChampions } from "../lib/data"
 
@@ -29,13 +30,22 @@ const DashboardPage = async () => {
               className="grid gap-3 rounded-md border border-zinc-200 bg-white p-5 shadow-sm"
             >
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <h2 className="text-2xl font-semibold text-zinc-950">
-                    {tracked.championName}
-                  </h2>
-                  <p className="text-sm font-medium text-zinc-500">
-                    Role : {tracked.championRole}
-                  </p>
+                <div className="flex items-center gap-4">
+                  <Image
+                    src={tracked.championIconUrl}
+                    alt=""
+                    width={56}
+                    height={56}
+                    className="rounded-md"
+                  />
+                  <div>
+                    <h2 className="text-2xl font-semibold text-zinc-950">
+                      {tracked.championName}
+                    </h2>
+                    <p className="text-sm font-medium text-zinc-500">
+                      Role : {tracked.championRole}
+                    </p>
+                  </div>
                 </div>
                 <span className="rounded-md bg-emerald-50 px-3 py-1 text-sm font-semibold text-emerald-700">
                   {statusLabels[tracked.status]}

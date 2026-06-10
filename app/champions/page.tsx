@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { getChampions } from "../lib/data"
 
@@ -20,21 +21,35 @@ export default async function ChampionsPage() {
           <Link
             key={champion.id}
             href={`/champions/${champion.id}`}
-            className="grid gap-3 rounded-md border border-zinc-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-400"
+            className="grid gap-4 rounded-md border border-zinc-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-400"
           >
-            <div className="flex items-center justify-between gap-3">
-              <h2 className="text-2xl font-semibold text-zinc-950">
-                {champion.name}
-              </h2>
-              <span className="rounded-md bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-700">
-                {champion.role}
-              </span>
+            <div className="flex items-center gap-4">
+              <Image
+                src={champion.iconUrl}
+                alt=""
+                width={64}
+                height={64}
+                className="rounded-md"
+              />
+              <div className="min-w-0">
+                <h2 className="truncate text-2xl font-semibold text-zinc-950">
+                  {champion.name}
+                </h2>
+                <p className="truncate font-medium text-zinc-700">
+                  {champion.title}
+                </p>
+              </div>
             </div>
-            <p className="font-medium text-zinc-700">{champion.title}</p>
-            <p className="text-sm text-zinc-600">{champion.lore}</p>
-            <p className="text-sm font-medium text-zinc-500">
-              Difficulte : {champion.difficulty}
-            </p>
+            <div className="flex flex-wrap gap-2">
+              {champion.roles.map((role) => (
+                <span
+                  key={role}
+                  className="rounded-md bg-emerald-50 px-2 py-1 text-xs font-semibold uppercase text-emerald-700"
+                >
+                  {role}
+                </span>
+              ))}
+            </div>
           </Link>
         ))}
       </section>

@@ -1,4 +1,4 @@
-import { champions } from "./champion-data"
+import { getChampionById } from "./cdragon"
 import { prisma } from "./prisma"
 
 export type ChampionStatus = "to-try" | "learning" | "mastered"
@@ -13,6 +13,7 @@ export type TrackedChampion = {
 export type TrackedChampionView = TrackedChampion & {
   championName: string
   championRole: string
+  championIconUrl: string
 }
 
 export async function readTrackedChampions(): Promise<TrackedChampion[]> {
@@ -54,13 +55,14 @@ export async function readTrackedChampionViews(): Promise<TrackedChampionView[]>
   const trackedChampionViews: TrackedChampionView[] = []
 
   for (const tracked of trackedChampions) {
-    const champion = champions.find((item) => item.id === tracked.championId)
+    const champion = await getChampionById(tracked.championId)
 
     if (champion) {
       trackedChampionViews.push({
         ...tracked,
         championName: champion.name,
         championRole: champion.role,
+        championIconUrl: champion.iconUrl,
       })
     }
   }

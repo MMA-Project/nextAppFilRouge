@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { TrackChampionForm } from "@/app/components/TrackChampionForm"
@@ -27,13 +28,27 @@ export default async function ChampionDetailPage({
           Retour aux champions
         </Link>
 
-        <div className="grid gap-3">
-          <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
-            {champion.role} - {champion.region}
-          </p>
-          <h1 className="text-5xl font-bold text-zinc-950">{champion.name}</h1>
-          <p className="text-xl font-medium text-zinc-700">{champion.title}</p>
-          <p className="max-w-3xl text-zinc-600">{champion.lore}</p>
+        <div className="overflow-hidden rounded-md border border-zinc-200 bg-white shadow-sm">
+          <Image
+            src={champion.splashUrl}
+            alt=""
+            width={1215}
+            height={717}
+            priority
+            className="aspect-[16/7] w-full object-cover"
+          />
+          <div className="grid gap-3 p-5">
+            <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
+              {champion.roles.join(" / ") || champion.role}
+            </p>
+            <h1 className="text-5xl font-bold text-zinc-950">
+              {champion.name}
+            </h1>
+            <p className="text-xl font-medium text-zinc-700">
+              {champion.title}
+            </p>
+            <p className="max-w-3xl text-zinc-600">{champion.lore}</p>
+          </div>
         </div>
 
         <div className="grid gap-3">

@@ -1,5 +1,7 @@
-import { champions } from "@/app/lib/champion-data"
+import { getChampionSummaries } from "@/app/lib/cdragon"
 
 export async function GET() {
+  const champions = await getChampionSummaries()
+
   return Response.json(champions)
 }

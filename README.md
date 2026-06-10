@@ -16,6 +16,7 @@ L'application pourra permettre de :
 
 - consulter une liste de champions ;
 - afficher le detail d'un champion avec une route dynamique ;
+- utiliser les donnees et assets de Community Dragon ;
 - filtrer les champions par role ;
 - suivre des champions dans un dashboard ;
 - ajouter une progression personnelle : a tester, en apprentissage, maitrise ;
@@ -68,9 +69,9 @@ Le deuxieme jalon ajoute les premiers patterns data-driven de l'application.
 Pages data-driven :
 
 - `/champions` affiche une liste de champions alimentee par un `fetch` serveur
-  dans un Server Component ;
+  dans un Server Component depuis Community Dragon ;
 - `/champions/[id]` affiche le detail d'un champion avec une route dynamique et
-  un `fetch` serveur ;
+  un `fetch` serveur vers Community Dragon ;
 - `/dashboard` affiche les champions suivis par l'utilisateur avec un `fetch`
   serveur.
 
@@ -85,7 +86,10 @@ Server Action :
 Strategie de cache et revalidation :
 
 - les donnees de champions utilisent le tag `champions` avec une revalidation
-  temporelle de `3600` secondes, car ce catalogue change rarement ;
+  temporelle de `3600` secondes cote routes internes ;
+- les appels Community Dragon utilisent le tag `cdragon` avec une revalidation
+  temporelle de `86400` secondes, car les champions et assets changent surtout
+  lors des patchs League of Legends ;
 - les donnees de suivi utilisent le tag `tracked-champions` avec une
   revalidation temporelle de `300` secondes, car elles changent plus souvent ;
 - apres une mutation, la Server Action appelle `updateTag("tracked-champions")`
@@ -143,3 +147,11 @@ make db-generate # regenere le client Prisma
 make db-migrate  # applique une migration Prisma en local
 make db-studio   # ouvre Prisma Studio
 ```
+
+## Donnees League of Legends
+
+Les champions, icones et splash arts viennent de Community Dragon :
+
+- liste : `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-summary.json`
+- details : `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champions/{id}.json`
+- assets : chemins `lol-game-data/assets/...` retournes par Community Dragon

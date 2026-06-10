@@ -2,7 +2,7 @@
 
 import { revalidatePath, updateTag } from "next/cache"
 import { z } from "zod"
-import { getChampionById } from "./lib/champion-data"
+import { getChampionById } from "./lib/cdragon"
 import { TRACKED_CHAMPIONS_TAG } from "./lib/data"
 import { writeTrackedChampion } from "./lib/tracked-store"
 
@@ -48,7 +48,7 @@ export async function trackChampionAction(
     }
   }
 
-  const champion = getChampionById(parsed.data.championId)
+  const champion = await getChampionById(parsed.data.championId)
 
   if (!champion) {
     return {

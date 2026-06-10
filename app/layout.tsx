@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
+import Image from "next/image"
 import Link from "next/link"
+import { getCDragonAssetUrl } from "./lib/cdragon"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -29,7 +31,19 @@ export default function RootLayout({
         <div className="min-h-screen bg-stone-50 text-zinc-950">
           <header className="border-b border-zinc-200 bg-white">
             <nav className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
-              <Link href="/" className="text-lg font-bold text-zinc-950">
+              <Link
+                href="/"
+                className="flex items-center gap-2 text-lg font-bold text-zinc-950"
+              >
+                <Image
+                  src={getCDragonAssetUrl(
+                    "/lol-game-data/assets/v1/profile-icons/29.png"
+                  )}
+                  alt=""
+                  width={32}
+                  height={32}
+                  className="rounded-md"
+                />
                 League Tracker
               </Link>
               <div className="flex gap-3 text-sm font-semibold">

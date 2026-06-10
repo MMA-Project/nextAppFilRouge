@@ -1,5 +1,5 @@
 import { headers } from "next/headers"
-import type { Champion } from "./champion-data"
+import type { Champion } from "./cdragon"
 import type { TrackedChampionView } from "./tracked-store"
 
 export const CHAMPIONS_TAG = "champions"
