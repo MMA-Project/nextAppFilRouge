@@ -27,12 +27,12 @@ export default async function ChampionDetailPage({
       <section className="grid gap-6">
         <Link
           href="/champions"
-          className="text-sm font-semibold text-emerald-700"
+          className="text-xs font-bold uppercase tracking-widest text-[#C89B3C] transition-colors hover:text-[#F0E6D3]"
         >
-          Retour aux champions
+          ← Retour aux champions
         </Link>
 
-        <div className="overflow-hidden rounded-md border border-zinc-200 bg-white shadow-sm">
+        <div className="hextech-card overflow-hidden rounded-sm">
           <Image
             src={champion.splashUrl}
             alt=""
@@ -42,28 +42,28 @@ export default async function ChampionDetailPage({
             className="aspect-[16/7] w-full object-cover"
           />
           <div className="grid gap-3 p-5">
-            <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#C89B3C]">
               {champion.roles.join(" / ") || champion.role}
             </p>
-            <h1 className="text-5xl font-bold text-zinc-950">
+            <h1 className="font-heading text-5xl font-bold tracking-wide text-[#F0E6D3]">
               {champion.name}
             </h1>
-            <p className="text-xl font-medium text-zinc-700">
+            <p className="text-lg font-medium text-[#7A8CA0]">
               {champion.title}
             </p>
-            <p className="max-w-3xl text-zinc-600">{champion.lore}</p>
+            <p className="max-w-3xl text-[#A8B8C8]">{champion.lore}</p>
           </div>
         </div>
 
         <div className="grid gap-3">
-          <h2 className="text-2xl font-semibold text-zinc-950">
+          <h2 className="font-heading text-2xl font-semibold tracking-wide text-[#F0E6D3]">
             Conseils d&apos;apprentissage
           </h2>
           <ul className="grid gap-3">
             {champion.tips.map((tip) => (
               <li
                 key={tip}
-                className="rounded-md border border-zinc-200 bg-white p-4 text-zinc-700 shadow-sm"
+                className="hextech-card rounded-sm p-4 text-[#A8B8C8]"
               >
                 {tip}
               </li>
@@ -73,12 +73,12 @@ export default async function ChampionDetailPage({
       </section>
 
       <aside className="grid content-start gap-4">
-        <div className="rounded-md border border-zinc-200 bg-zinc-50 p-5">
-          <h2 className="text-xl font-semibold text-zinc-950">
+        <div className="hextech-card rounded-sm p-5">
+          <h2 className="font-heading text-xl font-semibold tracking-wide text-[#F0E6D3]">
             Suivi personnel
           </h2>
-          <p className="mt-2 text-sm text-zinc-600">
-            Connecte-toi pour ajouter ce champion a ton dashboard.
+          <p className="mt-2 text-sm text-[#7A8CA0]">
+            Connecte-toi pour ajouter ce champion à ton dashboard.
           </p>
         </div>
         {session?.user ? (

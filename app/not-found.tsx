@@ -1,12 +1,15 @@
 const NotFoundPage = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center px-6">
+    <div className="flex min-h-[calc(100vh-65px)] items-center justify-center px-6">
       <div className="text-center">
-        <h1 className="text-4xl font-bold text-zinc-950">
+        <p className="text-xs font-bold uppercase tracking-[0.4em] text-[#C89B3C]">
+          Erreur 404
+        </p>
+        <h1 className="font-heading mt-3 text-5xl font-bold tracking-wide text-[#F0E6D3]">
           Champion introuvable
         </h1>
-        <p className="mt-3 text-zinc-600">
-          La page demandee n&apos;existe pas dans League Tracker.
+        <p className="mt-3 text-[#7A8CA0]">
+          Cette invocation n&apos;a renvoyé aucun champion dans Runeterra.
         </p>
       </div>
     </div>
