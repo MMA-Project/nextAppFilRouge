@@ -6,7 +6,9 @@ import { z } from "zod"
 import { authOptions } from "./lib/auth"
 import { getChampionById } from "./lib/cdragon"
 import { TRACKED_CHAMPIONS_TAG } from "./lib/data"
+import { getSessionUserId } from "./lib/session"
 import { writeTrackedChampion } from "./lib/tracked-store"
+import { trackedChampionInputSchema } from "./lib/tracked-validation"
 
 export type TrackChampionState = {
   ok: boolean
@@ -18,28 +20,21 @@ export type TrackChampionState = {
   }
 }
 
-const trackChampionSchema = z.object({
-  championId: z.string().min(1, "Champion introuvable."),
-  status: z.enum(["to-try", "learning", "mastered"], {
-    message: "Choisis un statut valide.",
-  }),
-  notes: z.string().trim().max(280, "La note doit faire 280 caracteres max."),
-})
-
 export async function trackChampionAction(
   _previousState: TrackChampionState,
   formData: FormData
 ): Promise<TrackChampionState> {
   const session = await getServerSession(authOptions)
+  const userId = getSessionUserId(session)
 
-  if (!session?.user) {
+  if (!userId) {
     return {
       ok: false,
       message: "Connecte-toi pour suivre un champion.",
     }
   }
 
-  const parsed = trackChampionSchema.safeParse({
+  const parsed = trackedChampionInputSchema.safeParse({
     championId: formData.get("championId"),
     status: formData.get("status"),
     notes: formData.get("notes") ?? "",
@@ -73,6 +68,7 @@ export async function trackChampionAction(
 
   try {
     await writeTrackedChampion({
+      userId,
       championId: parsed.data.championId,
       status: parsed.data.status,
       notes: parsed.data.notes,

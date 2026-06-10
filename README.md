@@ -61,10 +61,6 @@ app/
       route.ts
 ```
 
-## Jalon 2
-
-Le deuxieme jalon ajoute les premiers patterns data-driven de l'application.
-
 Pages data-driven :
 
 - `/champions` affiche une liste de champions alimentee par un `fetch` serveur
@@ -95,6 +91,37 @@ Strategie de cache et revalidation :
   pour expirer immediatement le cache du dashboard ;
 - l'action appelle aussi `revalidatePath("/dashboard")` et
   `revalidatePath("/champions/[id]")` pour rafraichir les routes concernees.
+
+Authentification :
+
+- `next-auth` est configure avec le provider GitHub ;
+- le `SessionProvider` est branche dans le root layout ;
+- les boutons de connexion utilisent `signIn("github")` ;
+- la deconnexion utilise `signOut()`.
+
+Protection des routes :
+
+- le dashboard `/dashboard` est protege par `middleware.ts` avec le matcher
+  `/dashboard/:path*` ;
+- les pages `/champions` et `/champions/[id]` restent publiques ;
+- la partie "Suivi personnel" d'une fiche champion n'est disponible que pour un
+  utilisateur connecte.
+
+Route Handler utilisateur :
+
+- `/api/tracked-champions` expose `GET` et `POST` ;
+- `GET` retourne uniquement les champions suivis de l'utilisateur connecte ;
+- `POST` valide le body JSON avec Zod avant d'enregistrer le suivi ;
+- l'API renvoie des codes HTTP explicites : `401`, `400`, `404`, `500` ou
+  `200`.
+
+Isolation des donnees :
+
+- chaque suivi est stocke avec un `userId` issu de la session NextAuth ;
+- la contrainte Prisma `@@unique([userId, championId])` empeche les doublons
+  pour un meme utilisateur ;
+- les lectures du dashboard filtrent toujours par `userId`, donc un utilisateur
+  ne voit pas les donnees d'un autre.
 
 ## Lancer le projet
 
