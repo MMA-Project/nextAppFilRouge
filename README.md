@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# League Tracker
 
-## Getting Started
+League Tracker est une application fil rouge realisee avec Next.js autour de
+l'univers de League of Legends.
 
-First, run the development server:
+L'objectif du projet est de construire progressivement une application permettant
+de consulter des champions, d'acceder a leurs fiches detaillees et de suivre les
+champions que l'utilisateur souhaite apprendre ou maitriser.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Contexte du projet
+
+Le projet prend la forme d'une petite encyclopedie et d'un tableau de bord pour
+joueurs de League of Legends.
+
+L'application pourra permettre de :
+
+- consulter une liste de champions ;
+- afficher le detail d'un champion avec une route dynamique ;
+- filtrer les champions par role ;
+- suivre des champions dans un dashboard ;
+- ajouter une progression personnelle : a tester, en apprentissage, maitrise ;
+- afficher des pages d'erreur, de chargement et de contenu introuvable.
+
+## Objectifs pedagogiques
+
+Ce projet sert de support pour pratiquer les fonctionnalites principales de
+Next.js avec l'App Router :
+
+- organisation du dossier `app/` ;
+- layouts imbriques ;
+- routes dynamiques avec `[id]` ;
+- pages speciales `loading.tsx`, `error.tsx` et `not-found.tsx` ;
+- navigation entre les pages ;
+- structuration progressive d'une application web.
+
+## Structure prevue
+
+```txt
+app/
+  layout.tsx
+  page.tsx
+  loading.tsx
+  error.tsx
+  not-found.tsx
+
+  champions/
+    page.tsx
+    [id]/
+      page.tsx
+
+  dashboard/
+    layout.tsx
+    page.tsx
+    champions/
+      page.tsx
+      [id]/
+        page.tsx
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Lancer le projet
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Installer les dependances :
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+```
 
-## Learn More
+Lancer le serveur de developpement :
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Ouvrir ensuite l'application dans le navigateur :
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```txt
+http://localhost:3000
+```
