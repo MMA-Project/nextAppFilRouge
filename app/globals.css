@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafaf9;
-  --foreground: #171717;
+  --background: #010A13;
+  --foreground: #F0E6D3;
 }
 
 @theme inline {
@@ -10,9 +10,48 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-cinzel);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+.hextech-card {
+  background: #0D1B2A;
+  border: 1px solid rgba(200, 155, 60, 0.3);
+  position: relative;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hextech-card:hover {
+  border-color: rgba(200, 155, 60, 0.75);
+  box-shadow: 0 0 24px rgba(200, 155, 60, 0.12), 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.hextech-card::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid #C89B3C;
+  border-left: 2px solid #C89B3C;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hextech-card::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid #C89B3C;
+  border-right: 2px solid #C89B3C;
+  pointer-events: none;
+  z-index: 1;
 }

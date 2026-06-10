@@ -21,7 +21,15 @@ async function fetchJson<T>(
   path: string,
   options: { tag: string; revalidate: number }
 ) {
+  const requestHeaders = await headers()
+  const cookie = requestHeaders.get("cookie")
+
   const response = await fetch(`${await getBaseUrl()}${path}`, {
+    headers: cookie
+      ? {
+          cookie,
+        }
+      : undefined,
     next: {
       revalidate: options.revalidate,
       tags: [options.tag],

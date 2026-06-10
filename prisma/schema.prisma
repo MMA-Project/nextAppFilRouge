@@ -14,11 +14,13 @@ datasource db {
 
 model TrackedChampion {
   id         String   @id @default(cuid())
-  championId String   @unique
+  userId     String   @default("legacy")
+  championId String
   status     String
   notes      String   @default("")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
+  @@unique([userId, championId])
   @@map("tracked_champions")
 }

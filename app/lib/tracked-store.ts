@@ -4,6 +4,7 @@ import { prisma } from "./prisma"
 export type ChampionStatus = "to-try" | "learning" | "mastered"
 
 export type TrackedChampion = {
+  userId: string
   championId: string
   status: ChampionStatus
   notes: string
@@ -16,14 +17,20 @@ export type TrackedChampionView = TrackedChampion & {
   championIconUrl: string
 }
 
-export async function readTrackedChampions(): Promise<TrackedChampion[]> {
+export async function readTrackedChampions(
+  userId: string
+): Promise<TrackedChampion[]> {
   const trackedChampions = await prisma.trackedChampion.findMany({
+    where: {
+      userId,
+    },
     orderBy: {
       updatedAt: "desc",
     },
   })
 
   return trackedChampions.map((tracked) => ({
+    userId: tracked.userId,
     championId: tracked.championId,
     status: tracked.status as ChampionStatus,
     notes: tracked.notes,
@@ -36,9 +43,13 @@ export async function writeTrackedChampion(
 ) {
   await prisma.trackedChampion.upsert({
     where: {
-      championId: entry.championId,
+      userId_championId: {
+        userId: entry.userId,
+        championId: entry.championId,
+      },
     },
     create: {
+      userId: entry.userId,
       championId: entry.championId,
       status: entry.status,
       notes: entry.notes,
@@ -50,8 +61,10 @@ export async function writeTrackedChampion(
   })
 }
 
-export async function readTrackedChampionViews(): Promise<TrackedChampionView[]> {
-  const trackedChampions = await readTrackedChampions()
+export async function readTrackedChampionViews(
+  userId: string
+): Promise<TrackedChampionView[]> {
+  const trackedChampions = await readTrackedChampions(userId)
   const trackedChampionViews: TrackedChampionView[] = []
 
   for (const tracked of trackedChampions) {

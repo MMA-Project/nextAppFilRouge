@@ -10,10 +10,12 @@ export default async function ChampionsPage() {
   return (
     <main className="mx-auto grid w-full max-w-6xl gap-8 px-6 py-10">
       <div className="grid gap-3">
-        <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
-          Encyclopedie
+        <p className="text-xs font-bold uppercase tracking-[0.4em] text-[#C89B3C]">
+          ✦ Encyclopédie ✦
         </p>
-        <h1 className="text-4xl font-bold text-zinc-950">Champions LoL</h1>
+        <h1 className="font-heading text-4xl font-bold tracking-wide text-[#F0E6D3]">
+          Champions de Runeterra
+        </h1>
       </div>
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -21,21 +23,23 @@ export default async function ChampionsPage() {
           <Link
             key={champion.id}
             href={`/champions/${champion.id}`}
-            className="grid gap-4 rounded-md border border-zinc-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-400"
+            className="hextech-card grid gap-4 rounded-sm p-5 transition hover:-translate-y-0.5"
           >
             <div className="flex items-center gap-4">
-              <Image
-                src={champion.iconUrl}
-                alt=""
-                width={64}
-                height={64}
-                className="rounded-md"
-              />
+              {champion.iconUrl && (
+                <Image
+                  src={champion.iconUrl}
+                  alt=""
+                  width={64}
+                  height={64}
+                  className="rounded-sm ring-1 ring-[#C89B3C]/40"
+                />
+              )}
               <div className="min-w-0">
-                <h2 className="truncate text-2xl font-semibold text-zinc-950">
+                <h2 className="truncate font-heading text-xl font-bold tracking-wide text-[#F0E6D3]">
                   {champion.name}
                 </h2>
-                <p className="truncate font-medium text-zinc-700">
+                <p className="truncate text-sm text-[#7A8CA0]">
                   {champion.title}
                 </p>
               </div>
@@ -44,7 +48,7 @@ export default async function ChampionsPage() {
               {champion.roles.map((role) => (
                 <span
                   key={role}
-                  className="rounded-md bg-emerald-50 px-2 py-1 text-xs font-semibold uppercase text-emerald-700"
+                  className="rounded-sm border border-[#C89B3C]/30 bg-[#C89B3C]/10 px-2 py-1 text-xs font-bold uppercase tracking-wider text-[#C89B3C]"
                 >
                   {role}
                 </span>
