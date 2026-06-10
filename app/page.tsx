@@ -3,7 +3,7 @@ import { getCDragonAssetUrl } from "./lib/cdragon"
 
 export default function Home() {
   const heroSplash = getCDragonAssetUrl(
-    "/lol-game-data/assets/v1/champion-splashes/103/103000.jpg"
+    "/lol-game-data/assets/ASSETS/Characters/Ahri/Skins/Base/Images/ahri_splash_uncentered_0.jpg"
   )
 
   return (

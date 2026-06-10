@@ -34,12 +34,12 @@ export default async function ChampionDetailPage({
 
         <div className="hextech-card overflow-hidden rounded-sm">
           <Image
-            src={champion.splashUrl}
+            src={champion.uncenteredSplashUrl}
             alt=""
-            width={1215}
-            height={717}
+            width={1920}
+            height={1080}
             priority
-            className="aspect-[16/7] w-full object-cover"
+            className="aspect-[16/7] w-full object-cover object-top"
           />
           <div className="grid gap-3 p-5">
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#C89B3C]">

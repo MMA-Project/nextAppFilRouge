@@ -17,6 +17,7 @@ export type Champion = {
   tips: string[]
   iconUrl: string
   splashUrl: string
+  uncenteredSplashUrl: string
 }
 
 type CDragonChampionSummary = {
@@ -87,6 +88,7 @@ function getPrimaryRole(roles: string[]) {
 }
 
 function toChampion(summary: CDragonChampionSummary): Champion {
+  const iconUrl = getCDragonAssetUrl(summary.squarePortraitPath)
   return {
     id: normalizeChampionId(summary.alias),
     cdragonId: summary.id,
@@ -101,8 +103,9 @@ function toChampion(summary: CDragonChampionSummary): Champion {
       "Consulte la fiche detaillee pour voir la bio et les roles CDragon.",
       "Ajoute ce champion au dashboard pour suivre ta progression.",
     ],
-    iconUrl: getCDragonAssetUrl(summary.squarePortraitPath),
-    splashUrl: getCDragonAssetUrl(summary.squarePortraitPath),
+    iconUrl,
+    splashUrl: iconUrl,
+    uncenteredSplashUrl: iconUrl,
   }
 }
 
@@ -110,7 +113,11 @@ function toChampionDetail(detail: CDragonChampionDetail): Champion {
   const baseSkin = detail.skins?.find((skin) => skin.isBase)
   const splashPath =
     baseSkin?.splashPath ??
+    baseSkin?.tilePath ??
+    detail.squarePortraitPath
+  const uncenteredSplashPath =
     baseSkin?.uncenteredSplashPath ??
+    baseSkin?.splashPath ??
     baseSkin?.tilePath ??
     detail.squarePortraitPath
 
@@ -120,6 +127,7 @@ function toChampionDetail(detail: CDragonChampionDetail): Champion {
     difficulty: getDifficultyLabel(detail.tacticalInfo?.difficulty),
     lore: detail.shortBio,
     splashUrl: getCDragonAssetUrl(splashPath),
+    uncenteredSplashUrl: getCDragonAssetUrl(uncenteredSplashPath),
     tips: [
       `Roles CDragon : ${detail.roles.join(", ") || "non renseigne"}.`,
       `Difficulte indiquee par CDragon : ${getDifficultyLabel(
@@ -153,6 +161,26 @@ export async function getChampionSummaries() {
     .filter((champion) => champion.id > 0)
     .map(toChampion)
     .sort((a, b) => a.name.localeCompare(b.name))
+}
+
+const RANK_ICON_BASE =
+  "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/images"
+
+export type RankTier =
+  | "iron"
+  | "bronze"
+  | "silver"
+  | "gold"
+  | "platinum"
+  | "emerald"
+  | "diamond"
+  | "master"
+  | "grandmaster"
+  | "challenger"
+  | "unranked"
+
+export function getRankIconUrl(tier: RankTier) {
+  return `${RANK_ICON_BASE}/${tier}.png`
 }
 
 export async function getChampionById(id: string) {
