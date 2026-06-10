@@ -19,6 +19,9 @@ L'application pourra permettre de :
 - utiliser les donnees et assets de Community Dragon ;
 - filtrer les champions par role ;
 - suivre des champions dans un dashboard ;
+- proteger le dashboard avec une connexion GitHub ;
+- laisser les fiches champions publiques tout en reservant le suivi aux
+  utilisateurs connectes ;
 - ajouter une progression personnelle : a tester, en apprentissage, maitrise ;
 - afficher des pages d'erreur, de chargement et de contenu introuvable.
 
@@ -135,6 +138,10 @@ Variables d'environnement attendues :
 
 ```bash
 DATABASE_URL="postgresql://league_tracker:league_tracker@localhost:5433/league_tracker?schema=public"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="change-me"
+GITHUB_CLIENT_ID="change-me"
+GITHUB_CLIENT_SECRET="change-me"
 ```
 
 Commandes utiles :

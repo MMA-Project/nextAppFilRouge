@@ -1,7 +1,9 @@
 "use server"
 
 import { revalidatePath, updateTag } from "next/cache"
+import { getServerSession } from "next-auth"
 import { z } from "zod"
+import { authOptions } from "./lib/auth"
 import { getChampionById } from "./lib/cdragon"
 import { TRACKED_CHAMPIONS_TAG } from "./lib/data"
 import { writeTrackedChampion } from "./lib/tracked-store"
@@ -28,6 +30,15 @@ export async function trackChampionAction(
   _previousState: TrackChampionState,
   formData: FormData
 ): Promise<TrackChampionState> {
+  const session = await getServerSession(authOptions)
+
+  if (!session?.user) {
+    return {
+      ok: false,
+      message: "Connecte-toi pour suivre un champion.",
+    }
+  }
+
   const parsed = trackChampionSchema.safeParse({
     championId: formData.get("championId"),
     status: formData.get("status"),

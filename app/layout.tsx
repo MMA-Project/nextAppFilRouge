@@ -2,6 +2,8 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import Image from "next/image"
 import Link from "next/link"
+import { AuthNav } from "./components/AuthNav"
+import { AuthProvider } from "./components/AuthProvider"
 import { getCDragonAssetUrl } from "./lib/cdragon"
 import "./globals.css"
 
@@ -28,42 +30,45 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
-        <div className="min-h-screen bg-stone-50 text-zinc-950">
-          <header className="border-b border-zinc-200 bg-white">
-            <nav className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
-              <Link
-                href="/"
-                className="flex items-center gap-2 text-lg font-bold text-zinc-950"
-              >
-                <Image
-                  src={getCDragonAssetUrl(
-                    "/lol-game-data/assets/v1/profile-icons/29.png"
-                  )}
-                  alt=""
-                  width={32}
-                  height={32}
-                  className="rounded-md"
-                />
-                League Tracker
-              </Link>
-              <div className="flex gap-3 text-sm font-semibold">
+        <AuthProvider>
+          <div className="min-h-screen bg-stone-50 text-zinc-950">
+            <header className="border-b border-zinc-200 bg-white">
+              <nav className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
                 <Link
-                  href="/champions"
-                  className="text-zinc-700 hover:text-emerald-700"
+                  href="/"
+                  className="flex items-center gap-2 text-lg font-bold text-zinc-950"
                 >
-                  Champions
+                  <Image
+                    src={getCDragonAssetUrl(
+                      "/lol-game-data/assets/v1/champion-icons/103.png"
+                    )}
+                    alt=""
+                    width={32}
+                    height={32}
+                    className="rounded-md"
+                  />
+                  League Tracker
                 </Link>
-                <Link
-                  href="/dashboard"
-                  className="text-zinc-700 hover:text-emerald-700"
-                >
-                  Dashboard
-                </Link>
-              </div>
-            </nav>
-          </header>
-          {children}
-        </div>
+                <div className="flex flex-wrap items-center gap-3 text-sm font-semibold">
+                  <Link
+                    href="/champions"
+                    className="text-zinc-700 hover:text-emerald-700"
+                  >
+                    Champions
+                  </Link>
+                  <Link
+                    href="/dashboard"
+                    className="text-zinc-700 hover:text-emerald-700"
+                  >
+                    Dashboard
+                  </Link>
+                  <AuthNav />
+                </div>
+              </nav>
+            </header>
+            {children}
+          </div>
+        </AuthProvider>
       </body>
     </html>
   )

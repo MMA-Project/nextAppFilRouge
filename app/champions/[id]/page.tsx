@@ -1,7 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
+import { getServerSession } from "next-auth"
 import { notFound } from "next/navigation"
+import { SignInButton } from "@/app/components/SignInButton"
 import { TrackChampionForm } from "@/app/components/TrackChampionForm"
+import { authOptions } from "@/app/lib/auth"
 import { getChampion } from "@/app/lib/data"
 
 export const dynamic = "force-dynamic"
@@ -12,6 +15,7 @@ export default async function ChampionDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+  const session = await getServerSession(authOptions)
   const champion = await getChampion(id)
 
   if (!champion) {
@@ -73,8 +77,17 @@ export default async function ChampionDetailPage({
           <h2 className="text-xl font-semibold text-zinc-950">
             Suivi personnel
           </h2>
+          <p className="mt-2 text-sm text-zinc-600">
+            Connecte-toi pour ajouter ce champion a ton dashboard.
+          </p>
         </div>
-        <TrackChampionForm championId={champion.id} />
+        {session?.user ? (
+          <TrackChampionForm championId={champion.id} />
+        ) : (
+          <SignInButton callbackUrl={`/champions/${champion.id}`}>
+            Se connecter pour suivre
+          </SignInButton>
+        )}
       </aside>
     </main>
   )

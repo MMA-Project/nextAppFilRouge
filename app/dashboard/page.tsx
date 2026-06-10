@@ -1,5 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
+import { getServerSession } from "next-auth"
+import { SignInButton } from "../components/SignInButton"
+import { authOptions } from "../lib/auth"
 import { getTrackedChampions } from "../lib/data"
 
 export const dynamic = "force-dynamic"
@@ -11,6 +14,31 @@ const statusLabels = {
 }
 
 const DashboardPage = async () => {
+  const session = await getServerSession(authOptions)
+
+  if (!session?.user) {
+    return (
+      <main className="mx-auto grid w-full max-w-6xl gap-8 px-6 py-10">
+        <section className="rounded-md border border-zinc-200 bg-white p-8 shadow-sm">
+          <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
+            Dashboard prive
+          </p>
+          <h1 className="mt-3 text-4xl font-bold text-zinc-950">
+            Connecte-toi pour voir tes champions suivis
+          </h1>
+          <p className="mt-3 max-w-2xl text-zinc-600">
+            Le dashboard contient ton suivi personnel.
+          </p>
+          <div className="mt-6">
+            <SignInButton callbackUrl="/dashboard">
+              Connexion avec GitHub
+            </SignInButton>
+          </div>
+        </section>
+      </main>
+    )
+  }
+
   const trackedChampions = await getTrackedChampions()
 
   return (
