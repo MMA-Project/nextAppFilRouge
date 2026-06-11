@@ -127,8 +127,6 @@ Isolation des donnees :
 - les lectures du dashboard filtrent toujours par `userId`, donc un utilisateur
   ne voit pas les donnees d'un autre.
 
-## Optimisations Jalon 4
-
 Images et polices :
 
 - toutes les images de l'application passent par `next/image` ;
