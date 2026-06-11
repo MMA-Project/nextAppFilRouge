@@ -1,6 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
-import { getCDragonAssetUrl, getRankIconUrl } from "../lib/cdragon"
+import {
+  getCDragonAssetUrl,
+  getChampionRoleIconUrl,
+  getRankIconUrl,
+} from "../lib/cdragon"
 import { getTrackedChampions } from "../lib/data"
 
 export const dynamic = "force-dynamic"
@@ -63,7 +67,14 @@ const DashboardPage = async () => {
                       <h2 className="font-heading text-xl font-semibold tracking-wide text-[#F0E6D3]">
                         {tracked.championName}
                       </h2>
-                      <p className="text-xs font-medium uppercase tracking-wider text-[#7A8CA0]">
+                      <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-[#7A8CA0]">
+                        <Image
+                          src={getChampionRoleIconUrl(tracked.championRole)}
+                          alt=""
+                          width={16}
+                          height={16}
+                          className="opacity-70"
+                        />
                         {tracked.championRole}
                       </p>
                     </div>

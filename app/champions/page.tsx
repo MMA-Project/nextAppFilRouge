@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { getChampionRoleIconUrl } from "../lib/cdragon"
 import { getChampions } from "../lib/data"
 
 export const dynamic = "force-dynamic"
@@ -48,8 +49,15 @@ export default async function ChampionsPage() {
               {champion.roles.map((role) => (
                 <span
                   key={role}
-                  className="rounded-sm border border-[#C89B3C]/30 bg-[#C89B3C]/10 px-2 py-1 text-xs font-bold uppercase tracking-wider text-[#C89B3C]"
+                  className="inline-flex items-center gap-1.5 rounded-sm border border-[#C89B3C]/30 bg-[#C89B3C]/10 px-2 py-1 text-xs font-bold uppercase tracking-wider text-[#C89B3C]"
                 >
+                  <Image
+                    src={getChampionRoleIconUrl(role)}
+                    alt=""
+                    width={16}
+                    height={16}
+                    className="opacity-85"
+                  />
                   {role}
                 </span>
               ))}
