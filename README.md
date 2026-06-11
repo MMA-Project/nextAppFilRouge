@@ -44,6 +44,7 @@ app/
   not-found.tsx
 
   champions/
+    not-found.tsx
     page.tsx
     [id]/
       page.tsx
@@ -64,7 +65,8 @@ app/
 Pages data-driven :
 
 - `/champions` affiche une liste de champions alimentee par un `fetch` serveur
-  dans un Server Component depuis Community Dragon ;
+  dans un Server Component depuis Community Dragon. La page est statique avec
+  une revalidation de `86400` secondes ;
 - `/champions/[id]` affiche le detail d'un champion avec une route dynamique et
   un `fetch` serveur vers Community Dragon ;
 - `/dashboard` affiche les champions suivis par l'utilisateur avec un `fetch`
@@ -80,8 +82,10 @@ Server Action :
 
 Strategie de cache et revalidation :
 
-- les donnees de champions utilisent le tag `champions` avec une revalidation
-  temporelle de `3600` secondes cote routes internes ;
+- la page `/champions` utilise directement les donnees Community Dragon en RSC
+  avec une revalidation de route de `86400` secondes ;
+- les routes internes de champions utilisent le tag `champions` avec une
+  revalidation temporelle de `3600` secondes ;
 - les appels Community Dragon utilisent le tag `cdragon` avec une revalidation
   temporelle de `86400` secondes, car les champions et assets changent surtout
   lors des patchs League of Legends ;
@@ -122,6 +126,56 @@ Isolation des donnees :
   pour un meme utilisateur ;
 - les lectures du dashboard filtrent toujours par `userId`, donc un utilisateur
   ne voit pas les donnees d'un autre.
+
+## Optimisations Jalon 4
+
+Images et polices :
+
+- toutes les images de l'application passent par `next/image` ;
+- les polices sont chargees avec `next/font/google` dans `app/layout.tsx` :
+  `Geist`, `Geist_Mono` et `Cinzel` ;
+- les assets League of Legends viennent de Community Dragon et sont autorises
+  dans `next.config.ts` via `images.remotePatterns`.
+
+Streaming et UX :
+
+- `app/loading.tsx` fournit une UI de chargement globale ;
+- la page `/champions` utilise aussi un `Suspense` explicite autour de la grille
+  de champions ;
+- pendant le chargement des donnees, un skeleton de cartes est affiche, ce qui
+  permet au titre et a la structure de page de s'afficher avant la grille.
+
+Optimisations appliquees sur `/champions` :
+
+- la page est passee de `force-dynamic` a une page statique revalidee toutes les
+  `86400` secondes ;
+- le chargement des champions se fait directement en Server Component via
+  `getChampionSummaries()`, sans appel HTTP interne a `/api/champions` ;
+- le prefetch automatique est desactive sur les nombreuses cartes de champions
+  avec `prefetch={false}` pour eviter de precharger trop de routes detail ;
+- les 6 premieres icones de champions sont chargees en priorite avec
+  `loading="eager"` et `fetchPriority="high"` ;
+- les petites icones CDragon de la liste sont marquees `unoptimized`, car ce
+  sont deja de petits assets servis par le CDN Community Dragon ;
+- les cartes utilisent `content-visibility: auto` pour limiter le travail de
+  rendu des elements hors ecran.
+
+Mesures :
+
+- rapport avant optimisation :
+  `docs/rapport_lighthouse_champions_page_v1.pdf` ;
+- rapport apres optimisation :
+  `docs/rapport_lighthouse_champions_page_v2.pdf` ;
+- mesure complementaire locale sur la reponse HTML de `/champions` :
+  environ `726 Ko` avant optimisation, puis environ `611 Ko` apres optimisation ;
+- le build confirme que `/champions` est maintenant prerendue en statique avec
+  une revalidation de `1d`.
+
+Analyser le bundle :
+
+```bash
+pnpm analyze
+```
 
 ## Lancer le projet
 
