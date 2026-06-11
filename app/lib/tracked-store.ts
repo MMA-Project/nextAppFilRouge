@@ -38,6 +38,32 @@ export async function readTrackedChampions(
   }))
 }
 
+export async function readTrackedChampion(
+  userId: string,
+  championId: string
+): Promise<TrackedChampion | null> {
+  const tracked = await prisma.trackedChampion.findUnique({
+    where: {
+      userId_championId: {
+        userId,
+        championId,
+      },
+    },
+  })
+
+  if (!tracked) {
+    return null
+  }
+
+  return {
+    userId: tracked.userId,
+    championId: tracked.championId,
+    status: tracked.status as ChampionStatus,
+    notes: tracked.notes,
+    updatedAt: tracked.updatedAt.toISOString(),
+  }
+}
+
 export async function writeTrackedChampion(
   entry: Omit<TrackedChampion, "updatedAt">
 ) {
